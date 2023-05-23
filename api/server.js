@@ -4,7 +4,7 @@ const override = require("method-override");
 
 const {db, Person, Place, Thing, Souvenir} = require('./db');
 
-const getHTMLPage = require('./getHTML');
+const getHTMLPage = require('../views/getHTML');
 
 server.use(express.static('public'));
 server.use(express.urlencoded({extended: true}));

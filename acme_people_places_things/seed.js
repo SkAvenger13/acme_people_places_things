@@ -1,4 +1,4 @@
-const {db, Person, Place, Thing, Souvenir} = require("./db");
+const {db, Person, Place, Thing, Souvenir} = require("./api/db");
 
 const syncAndSeed = async () => {
     try {
