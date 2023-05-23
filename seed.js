@@ -1,25 +1,25 @@
-const {db, People, Places, Things, Souvenir} = require("./db");
+const {db, Person, Place, Thing, Souvenir} = require("./db");
 
 const syncAndSeed = async () => {
     try {
         await db.sync({force: true});
         const [moe, larry, luch, ethyl] = await Promise.all([
-            People.create({name: 'moe'}),
-            People.create({name: 'larry'}),
-            People.create({name: 'lucy'}),
-            People.create({name: 'ethyl'})
+            Person.create({name: 'moe'}),
+            Person.create({name: 'larry'}),
+            Person.create({name: 'lucy'}),
+            Person.create({name: 'ethyl'})
         ]);
         const [paris, nyc, chicago, london] = await Promise.all([
-            Places.create({name: 'paris'}),
-            Places.create({name: 'nyc'}),
-            Places.create({name: 'chicago'}),
-            Places.create({name: 'london'})
+            Place.create({name: 'paris'}),
+            Place.create({name: 'nyc'}),
+            Place.create({name: 'chicago'}),
+            Place.create({name: 'london'})
         ]);
         const [hat, bag, shirt, cup] = await Promise.all([
-            Things.create({name: 'hat'}),
-            Things.create({name: 'bag'}),
-            Things.create({name: 'shirt'}),
-            Things.create({name: 'cup'})
+            Thing.create({name: 'hat'}),
+            Thing.create({name: 'bag'}),
+            Thing.create({name: 'shirt'}),
+            Thing.create({name: 'cup'})
         ]);
         await Promise.all([
             Souvenir.create({

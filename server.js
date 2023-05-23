@@ -1,22 +1,26 @@
 const express = require('express');
 const server = express();
-const {db, People, Places, Things, Souvenir} = require('./db');
+const override = require("method-override");
+
+const {db, Person, Place, Thing, Souvenir} = require('./db');
+
 const getHTMLPage = require('./getHTML');
 
 server.use(express.static('public'));
 server.use(express.urlencoded({extended: true}));
+server.use(override("_method"));
 
 server.get('/', async (req, res) => {
     try {
         const [people, places, things, souvenirs] = await Promise.all([
-            People.findAll(),
-            Places.findAll(),
-            Things.findAll(),
+            Person.findAll(),
+            Place.findAll(),
+            Thing.findAll(),
             Souvenir.findAll({
                 include: [
-                    People,
-                    Places,
-                    Things
+                    Person,
+                    Place,
+                    Thing
                 ]
             })
         ]);
@@ -29,10 +33,24 @@ server.get('/', async (req, res) => {
 
 server.post('/', async (req, res) => {
     try {
-        
+        await Souvenir.create(req.body);
+        res.redirect('/');
     } catch (error) {
         console.log(error);
-        res.status(500);
+        res.status(500).json({message: "Failed to post to database.", error});
+    }
+});
+
+server.delete("/:id", async (req, res) => {
+    try {
+        const souvy = await Souvenir.findByPk(req.params.id);
+        if (souvy) {
+            souvy.destroy();
+        }
+        res.redirect('/');
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "Failed to delete entry.", error});
     }
 });
 
